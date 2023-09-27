@@ -18,7 +18,7 @@ class Posh_Nursery:
       self.scrollWaitTime = 5
       self.numTimesToScroll = 5
       self.chrome_options = Options()
-      #self.chrome_options.add_argument("--headless")
+      self.chrome_options.add_argument("--headless")
       #self.chrome_options.add_argument("--window-size=1920x1080")
       self.driver = webdriver.Chrome(options = self.chrome_options)
       self.loginUrl = "https://poshmark.com/login"
@@ -249,7 +249,7 @@ class Posh_Nursery:
             print(str(count) + ": "  + itemNameTxt)
 
    def getItemNames(self, shareAFew = False):
-      self.itemNameElements = self.driver.find_elements_by_xpath(self.itemNameXPath)
+      self.itemNameElements = self.driver.find_elements(By.XPATH, self.itemNameXPath)
       if shareAFew:
          closetSize = len(self.itemNameElements)
          if closetSize > self.numItemsToShareFromOtherClosets:
@@ -258,7 +258,7 @@ class Posh_Nursery:
       self.getAndPrintItemNames()
 
    def getShareButtons(self, shareAFew = False):      
-      self.shareButtons = self.driver.find_elements_by_xpath(self.firstShareXPath)      
+      self.shareButtons = self.driver.find_elements(By.XPATH, self.firstShareXPath)      
       self.closetSize = len(self.shareButtons)
       if shareAFew and self.closetSize > self.numItemsToShareFromOtherClosets:
          for i in range(0, self.closetSize - self.numItemsToShareFromOtherClosets):
@@ -294,7 +294,7 @@ class Posh_Nursery:
    
    def closeCaptchaPopUp(self):
       try:
-         captchaXButton = self.driver.find_element_by_xpath(self.captchaXButtonXPath)
+         captchaXButton = self.driver.find_element(By.XPATH, self.captchaXButtonXPath)
          self.clickAButton(captchaXButton)
       except Exception as e:
          print("      Exception occured while closing captcha pop up, exiting: " + str(e))
@@ -314,7 +314,7 @@ class Posh_Nursery:
    def checkForCaptcha(self, modalTitleXPath):
       modalTitle = ""
       try:
-         modalTitle = self.driver.find_element_by_xpath(modalTitleXPath).text
+         modalTitle = self.driver.find_element(By.XPATH,modalTitleXPath).text
       except Exception as e:
          if self.debug:
             print("      No modal, no captcha")
@@ -473,7 +473,7 @@ class Posh_Nursery:
       self.driver.get(self.shareNewsUrl)
       self.scrollPageANumTimes()
       self.waitForAnElementByXPath(self.closetNameXPath, "closetNameXPath")
-      closetNames = self.driver.find_elements_by_xpath(self.closetNameXPath)
+      closetNames = self.driver.find_elements(By.XPATH, self.closetNameXPath)
       closetNamesSet = set()
       for n in closetNames:
          closetNamesSet.add(n.text)
