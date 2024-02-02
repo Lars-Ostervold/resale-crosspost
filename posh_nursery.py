@@ -7,7 +7,9 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import StaleElementReferenceException, TimeoutException
 from datetime import datetime, timedelta
 import sys, random, pdb, time
-import config
+from dotenv import load_dotenv
+import os
+load_dotenv()
    
 class Posh_Nursery:
    def __init__(self, username, password, slowMode = False, debug = False, checkCaptcha = True, toShareClosetsFromFile = False, timeToWait = 3600, maintainOrder = False, shareBack = False):
@@ -18,9 +20,9 @@ class Posh_Nursery:
       self.scrollWaitTime = 5
       self.numTimesToScroll = 5
       self.chrome_options = Options()
-      self.chrome_options.add_argument("--headless")
+      #self.chrome_options.add_argument("--headless")
       #self.chrome_options.add_argument("--window-size=1920x1080")
-      self.driver = webdriver.Chrome(options = self.chrome_options)
+      self.driver = webdriver.Chrome(options = self.chrome_options)   
       self.loginUrl = "https://poshmark.com/login"
       self.closetUrl = "https://poshmark.com/closet"
       self.shareNewsUrl = "https://poshmark.com/news/share"
@@ -46,9 +48,8 @@ class Posh_Nursery:
       self.closetsToShareFile = "closetsToShare.txt"
       self.availableUrl = self.getClosetAvailableUrl(self.username)
       self.hasUpdate = False # used when preserving closet order to keep track of newly added item
-      self.closetSize = 0
-      self.shareButtons = []
-      self.orderedShareButtons = []
+      self.closetSize = 0  
+      self.orderedShareButtons = []  
       self.itemNameElements = []
       self.itemNames = []
       self.closetOrder = []
@@ -83,7 +84,7 @@ class Posh_Nursery:
       clickableElement = False
       if findByIdOrPath == 'id':
          try:
-            clickableElement = WebDriverWait(self.driver, timeOutSecs).until(EC.element_to_be_clickable((By.ID, idOrPath)))
+            clickableElement = WebDriverWait(self.driver, timeOutSecs).until(EC.element_to_be_clickable((By.ID, idOrPath)))  
          except TimeoutException as e:
             print("Timed out at locating element by " + findByIdOrPath + " at " + str(idOrPath) + ": " + str(e))
             return False
@@ -522,7 +523,7 @@ if __name__ == "__main__":
    maintainOrderBasedOnOrderFile = False
    checkCaptcha = True
    toShareClosetsFromFile = False
-   shareBack = False
+   shareBack = True
    if totNumArgs >= 2:
       goodFormat, checkCaptcha = checkBooleanInput(sys.argv[1].lower())
       if not goodFormat:
@@ -559,8 +560,8 @@ if __name__ == "__main__":
       print("Usage: python posh_nursery.py {Y|N} {Y|N} {integerNumberOfSeconds} {Y|N} {Y|N}")
       sys.exit()
    
-   username = config.username
-   password = config.password
+   username = os.getenv("POSHMARK_USERNAME")
+   password = os.getenv("POSHMARK_PASSWORD")
    posh_nursery = Posh_Nursery(username, password, slowMode, debug, checkCaptcha, toShareClosetsFromFile, timeToWait, maintainOrderBasedOnOrderFile, shareBack)
    print("Logging in Poshmark as " + username + "...")
    posh_nursery.login()

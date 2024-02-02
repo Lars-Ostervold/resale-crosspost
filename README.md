@@ -1,3 +1,8 @@
+# !!!
+This is mostly copied from [this repo](https://github.com/xzhou13/PoshmarkNursery). I updated the Selenium syntax to be compatible with the most Selenium 4. I kept most of xzhou13's README, but updated versions where needed. All the links and packages are working as of January 2024.
+
+I also began playing with a crossposter (crosspost_main.py) for Kidizen and Poshmark, but got stuck on selecting dropdown items on Kidizen's form.
+
 # PoshmarkNursery
 PoshmarkNursery is a bot that shares available items from one's own Poshmark closet to his/her followers on a schedule. It can also be configured to share back items from people who shared your items or share items from a given list of closets. <a href="https://www.poshmark.com">Poshmark</a> is an online reselling platform, and sharing one's own items helps to promote sales.
 
@@ -5,21 +10,18 @@ PoshmarkNursery is a bot that shares available items from one's own Poshmark clo
 I started reselling some of my clothes on Poshmark in the summer of 2019 and have caught the reselling/downsizing bug. To promote sales, I quickly learned that sharing my own items on a regular basis was a good practice. The act of sharing is very tedious so I wrote this script for sharing. I've since added the option to share other poshers' closets if they share from mine, although I suspect it doesn't enhance sales as much as sharing your own does (I tried it for a few weeks and stopped since it didn't seem to increase likes or sales).
 
 # Prerequisites
-* Python 3.7.3+
-* Selenium 3.141.0+
+* Python 3.11+
+* Selenium 4.17.2+
 * Chrome and compatible version of <a href="https://chromedriver.chromium.org">chromedriver</a>
 
 # Setup
 Clone the source locally:
 ```
-git clone https://github.com/xzhou13/PoshmarkNursery
+git clone https://github.com/Lars-Ostervold/resale-crosspost
 ```
 
-Modify the "config.py" file to contain your Poshmark login and password within the "". 
-```
-username = "username"
-password = "password"
-```
+Create a .env file and give it your login info. 
+
 
 # To Run In Default Mode
 Run in terminal with the following options:
